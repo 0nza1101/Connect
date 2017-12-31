@@ -35,7 +35,11 @@ class ChatRoomViewController: MessagesViewController {
     }
     
     func dataReceived(data: Data, peer: MCPeerID) {
-        //TODO: HANDLE DATA PUSH TO MESSAGE ARRAY like below
+        let convertedStr = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
+        let attributedText = NSAttributedString(string: convertedStr! as String, attributes: [.font: UIFont.systemFont(ofSize: 10), .foregroundColor: UIColor.blue])
+        let sender = Sender(id: peer.displayName, displayName: peer.displayName)
+        let message = MockMessage(attributedText: attributedText, sender: sender, messageId: UUID().uuidString, date: Date())
+        messagesArray.append(message)
     }
 }
 
@@ -57,6 +61,7 @@ extension ChatRoomViewController: MessagesDataSource {
 
 extension ChatRoomViewController: MessageInputBarDelegate {
     func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String){
+        connector.send(text: text)//Send the message to the other peer
         let attributedText = NSAttributedString(string: text, attributes: [.font: UIFont.systemFont(ofSize: 10), .foregroundColor: UIColor.blue])
         let message = MockMessage(attributedText: attributedText, sender: currentSender(), messageId: UUID().uuidString, date: Date())
         messagesArray.append(message)

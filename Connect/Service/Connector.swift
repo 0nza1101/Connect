@@ -21,12 +21,15 @@ public class Connector {
         service.startSvc()
     }
     
-    func send(dictionaryWithData dictionary: Dictionary<String, String>) -> Void {
-        let dataToSend = NSKeyedArchiver.archivedData(withRootObject: dictionary)
+    func send(text: String) -> Void {
+        let myNSString = text as NSString
+        let dataToSend = myNSString.data(using: String.Encoding.utf8.rawValue)!
         do {
             try service.send(data: dataToSend)
         }
-        catch {}
+        catch {
+            print("Can't send the message to the orther peer.")
+        }
     }
     
 }
