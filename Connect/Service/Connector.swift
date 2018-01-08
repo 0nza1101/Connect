@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 import MultipeerConnectivity
 
 public class Connector {
@@ -30,6 +31,10 @@ public class Connector {
         catch {
             print("Can't send the message to the other peer.")
         }
+    }
+    
+    func send(location: CLLocation) -> Void {
+    
     }
     
 }
