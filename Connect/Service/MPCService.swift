@@ -203,7 +203,9 @@ extension MPCService: MCSessionDelegate {
     }
     // Called when a peer sends an NSData to us
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        notifyReceive(data: data, from: peerID)
+        DispatchQueue.main.async {
+            self.notifyReceive(data: data, from: peerID)
+        }
     }
     // Called when a peer establishes a stream with us
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {}
@@ -211,4 +213,8 @@ extension MPCService: MCSessionDelegate {
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {}
     // Called when a file has finished transferring from another peer
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {}
+    // Called when a certificate has been received
+    func session(_ session: MCSession, didReceiveCertificate certificate: [Any]?, fromPeer peerID: MCPeerID, certificateHandler: @escaping (Bool) -> Void) {
+        certificateHandler(true)
+    }
 }

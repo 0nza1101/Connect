@@ -20,6 +20,7 @@ class PeersTableViewController: UITableViewController {
         connector.service.foundedPeers = refreshTable
         connector.service.lostPeers = refreshTable
         connector.service.invitationReceived = invitationWasReceived
+        connector.service.connectedWith = connectedWithPeer
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,7 +35,7 @@ class PeersTableViewController: UITableViewController {
     }
     
     func connectedWithPeer(peerID: MCPeerID) {
-        OperationQueue.main.addOperation { () -> Void in
+        OperationQueue.main.addOperation { () in
             self.performSegue(withIdentifier: "SegueChatRoomViewController", sender: self)
         }
     }
@@ -81,7 +82,6 @@ class PeersTableViewController: UITableViewController {
         let selectedPeer = connector.service.foundPeers[indexPath.row] as MCPeerID
         connector.service.serviceBrowser.invitePeer(selectedPeer, to: connector.service.session, withContext: nil, timeout: 20)
         tableView.deselectRow(at: indexPath, animated: true)
-        self.performSegue(withIdentifier: "SegueChatRoomViewController", sender: self)
     }
 
 

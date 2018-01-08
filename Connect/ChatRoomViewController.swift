@@ -22,6 +22,7 @@ class ChatRoomViewController: MessagesViewController {
         messagesCollectionView.messageCellDelegate = self
         messageInputBar.delegate = self
         
+        
         messageInputBar.sendButton.tintColor = UIColor(red: 69/255, green: 193/255, blue: 89/255, alpha: 1)
         scrollsToBottomOnKeybordBeginsEditing = true // default false
         maintainPositionOnKeyboardFrameChanged = true // default false
@@ -35,15 +36,20 @@ class ChatRoomViewController: MessagesViewController {
     }
     
     func dataReceived(data: Data, peer: MCPeerID) {
-        let convertedStr = NSString(data: data, encoding: String.Encoding.utf8.rawValue)
-        let attributedText = NSAttributedString(string: convertedStr! as String, attributes: [.font: UIFont.systemFont(ofSize: 10), .foregroundColor: UIColor.blue])
-        let sender = Sender(id: peer.displayName, displayName: peer.displayName)
-        let message = MockMessage(attributedText: attributedText, sender: sender, messageId: UUID().uuidString, date: Date())
-        messagesArray.append(message)
+        if let convertedStr = NSString(data: data, encoding: String.Encoding.utf8.rawValue) {
+            let sender = Sender(id: peer.displayName, displayName: peer.displayName)
+            let message = MockMessage(text: convertedStr as String, sender: sender, messageId: UUID().uuidString, date: Date())
+            messagesArray.append(message)
+            messagesCollectionView.insertSections([messagesArray.count - 1])
+            messagesCollectionView.scrollToBottom()
+        }
     }
 }
 
-/**BASIC MESSAGE KIT UI SETUP**/
+/**
+    BASIC MESSAGE KIT SETUP
+    Message datasource delegate
+**/
 extension ChatRoomViewController: MessagesDataSource {
     
     func currentSender() -> Sender {
@@ -57,21 +63,44 @@ extension ChatRoomViewController: MessagesDataSource {
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
         return messagesArray[indexPath.section]
     }
+    
+    func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+        let name = message.sender.displayName
+        return NSAttributedString(string: name, attributes: [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: .caption1)])
+    }
+    
+    func cellBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+        
+        struct ConversationDateFormatter {
+            static let formatter: DateFormatter = {
+                let formatter = DateFormatter()
+                formatter.dateStyle = .medium
+                return formatter
+            }()
+        }
+        let formatter = ConversationDateFormatter.formatter
+        let dateString = formatter.string(from: message.sentDate)
+        return NSAttributedString(string: dateString, attributes: [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: .caption2)])
+    }
 }
 
+/**
+    Message inputbar delegate
+ **/
 extension ChatRoomViewController: MessageInputBarDelegate {
     func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String){
         connector.send(text: text)//Send the message to the other peer
-        let attributedText = NSAttributedString(string: text, attributes: [.font: UIFont.systemFont(ofSize: 10), .foregroundColor: UIColor.blue])
-        let message = MockMessage(attributedText: attributedText, sender: currentSender(), messageId: UUID().uuidString, date: Date())
-        messagesArray.append(message)
         
+        let message = MockMessage(text: text, sender: currentSender(), messageId: UUID().uuidString, date: Date())
+        messagesArray.append(message)
         inputBar.inputTextView.text = String()
         messagesCollectionView.insertSections([messagesArray.count - 1])
         messagesCollectionView.scrollToBottom()
     }
 }
-
+/**
+    Message display delegate
+ **/
 extension ChatRoomViewController: MessagesDisplayDelegate {
     
     // MARK: - Text Messages
@@ -95,12 +124,12 @@ extension ChatRoomViewController: MessagesDisplayDelegate {
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
         let corner: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
         return .bubbleTail(corner, .curved)
-        //        let configurationClosure = { (view: MessageContainerView) in}
-        //        return .custom(configurationClosure)
     }
 }
 
-
+/**
+    Message layout delegate
+**/
 extension ChatRoomViewController: MessagesLayoutDelegate {
     func heightForLocation(message: MessageType, at indexPath: IndexPath, with maxWidth: CGFloat, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return 200
@@ -136,6 +165,9 @@ extension ChatRoomViewController: MessagesLayoutDelegate {
     }
 }
 
+/**
+    Message event delegate
+ **/
 extension ChatRoomViewController: MessageCellDelegate {
     
     func didTapMessage(in cell: MessageCollectionViewCell) {

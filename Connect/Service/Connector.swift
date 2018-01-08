@@ -28,7 +28,7 @@ public class Connector {
             try service.send(data: dataToSend)
         }
         catch {
-            print("Can't send the message to the orther peer.")
+            print("Can't send the message to the other peer.")
         }
     }
     
