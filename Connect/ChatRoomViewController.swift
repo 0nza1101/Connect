@@ -8,10 +8,14 @@
 
 import UIKit
 import MessageKit
+import CoreLocation
 import MultipeerConnectivity
+
 
 class ChatRoomViewController: MessagesViewController {
     
+    var locationManager: CLLocationManager = CLLocationManager()
+    var locationMsgUid: String = ""
     var messagesArray: [MessageType] = []
 
     override func viewDidLoad() {
@@ -21,13 +25,22 @@ class ChatRoomViewController: MessagesViewController {
         messagesCollectionView.messagesDisplayDelegate = self
         messagesCollectionView.messageCellDelegate = self
         messageInputBar.delegate = self
+        locationManager.delegate = self
         
         setupMessageBarUI()
         
-        scrollsToBottomOnKeybordBeginsEditing = true // default false
-        maintainPositionOnKeyboardFrameChanged = true // default false
+        scrollsToBottomOnKeybordBeginsEditing = true
+        maintainPositionOnKeyboardFrameChanged = true
         
         connector.service.dataReceived = dataReceived
+    }
+    
+    override func viewWillDisappear(_ animated: Bool){
+        connector.send(disconnect: "disconnect")
+    }
+    
+    override func viewDidDisappear(_ animated: Bool){
+        connector.service.session.disconnect()
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,7 +48,7 @@ class ChatRoomViewController: MessagesViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    private func setupMessageBarUI(){
+    func setupMessageBarUI(){
         defaultStyle()
         messageInputBar.sendButton.tintColor = UIColor(red: 69/255, green: 193/255, blue: 89/255, alpha: 1)
         messageInputBar.backgroundView.backgroundColor = .white
@@ -50,7 +63,7 @@ class ChatRoomViewController: MessagesViewController {
                 print("DO SOMETHING WITH THE GALLERY")
             },
             makeButton(named: "pin").onTouchUpInside { _ in
-                print("DO SOMETHING WITH THE LOCATION")
+                self.determineMyCurrentLocation()
             },
             makeButton(named: "ic_videocall").onTouchUpInside { _ in
                 print("DO SOMETHING WITH THE VIDEOCALL")
@@ -88,7 +101,8 @@ class ChatRoomViewController: MessagesViewController {
         messageInputBar.setStackViewItems(items, forStack: .bottom, animated: true)
     }
     
-    private func defaultStyle() {
+    //MARK: HELPERS
+    func defaultStyle() {
         let newMessageInputBar = MessageInputBar()
         newMessageInputBar.sendButton.tintColor = UIColor(red: 69/255, green: 193/255, blue: 89/255, alpha: 1)
         newMessageInputBar.delegate = self
@@ -96,7 +110,7 @@ class ChatRoomViewController: MessagesViewController {
         reloadInputViews()
     }
     
-    private func makeButton(named: String) -> InputBarButtonItem {
+    func makeButton(named: String) -> InputBarButtonItem {
         return InputBarButtonItem()
             .configure {
                 $0.tintColor = UIColor(red: 69/255, green: 193/255, blue: 89/255, alpha: 1)
@@ -111,20 +125,31 @@ class ChatRoomViewController: MessagesViewController {
     }
     
     func dataReceived(data: Data, peer: MCPeerID) {
-        if let convertedStr = NSString(data: data, encoding: String.Encoding.utf8.rawValue) {
+        let dataDictionary = NSKeyedUnarchiver.unarchiveObject(with: data) as! [String: Any]
+        
+        if let text = dataDictionary["text"] {
             let sender = Sender(id: peer.displayName, displayName: peer.displayName)
-            let message = MockMessage(text: convertedStr as String, sender: sender, messageId: UUID().uuidString, date: Date())
+            let message = MockMessage(text: text as! String, sender: sender, messageId: UUID().uuidString, date: Date())
             messagesArray.append(message)
             messagesCollectionView.insertSections([messagesArray.count - 1])
             messagesCollectionView.scrollToBottom()
         }
+        
+        if let location = dataDictionary["location"] {
+            let sender = Sender(id: peer.displayName, displayName: peer.displayName)
+            let message = MockMessage(location: location as! CLLocation, sender: sender, messageId: UUID().uuidString, date: Date())
+            messagesArray.append(message)
+            messagesCollectionView.insertSections([messagesArray.count - 1])
+            messagesCollectionView.scrollToBottom()
+        }
+        
+        if (dataDictionary["disconnect"] != nil) {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
 
-/**
-    BASIC MESSAGE KIT SETUP
-    Message datasource delegate
-**/
+//MARK : MESSAGE KIT SETUP/DELEGATE 💬
 extension ChatRoomViewController: MessagesDataSource {
     
     func currentSender() -> Sender {
@@ -159,10 +184,9 @@ extension ChatRoomViewController: MessagesDataSource {
     }
 }
 
-/**
-    Message inputbar delegate
- **/
 extension ChatRoomViewController: MessageInputBarDelegate {
+    
+    //MARK : SEND MESSAGE WHEN SEND BUTTON PRESSED 🚀
     func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String){
         connector.send(text: text)//Send the message to the other peer
         
@@ -173,9 +197,7 @@ extension ChatRoomViewController: MessageInputBarDelegate {
         messagesCollectionView.scrollToBottom()
     }
 }
-/**
-    Message display delegate
- **/
+
 extension ChatRoomViewController: MessagesDisplayDelegate {
     
     // MARK: - Text Messages
@@ -202,10 +224,8 @@ extension ChatRoomViewController: MessagesDisplayDelegate {
     }
 }
 
-/**
-    Message layout delegate
-**/
 extension ChatRoomViewController: MessagesLayoutDelegate {
+    
     func heightForLocation(message: MessageType, at indexPath: IndexPath, with maxWidth: CGFloat, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         return 200
     }
@@ -240,12 +260,51 @@ extension ChatRoomViewController: MessagesLayoutDelegate {
     }
 }
 
-/**
-    Message event delegate
- **/
 extension ChatRoomViewController: MessageCellDelegate {
     
     func didTapMessage(in cell: MessageCollectionViewCell) {
         print("Message tapped")
     }
 }
+
+//MARK : LOCATION SETUP/DELEGATE 📍
+extension ChatRoomViewController: CLLocationManagerDelegate {
+    
+    func determineMyCurrentLocation() {
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.requestLocation()
+            
+            let message = MockMessage(text: "🕙📍", sender: self.currentSender(), messageId: UUID().uuidString, date: Date())
+            locationMsgUid = message.messageId
+            messagesArray.append(message)
+            messagesCollectionView.insertSections([messagesArray.count - 1])
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let userLocation = locations.first {
+            print(userLocation.coordinate)
+            
+            connector.send(location: userLocation)
+            
+            let message = MockMessage(location: userLocation, sender: self.currentSender(), messageId: UUID().uuidString, date: Date())
+            for i in 0..<messagesArray.count {
+                if (messagesArray[i].messageId ==  locationMsgUid) {
+                    messagesArray[i] = message
+                    locationMsgUid = ""
+                }
+            }
+            messagesCollectionView.reloadSections([messagesArray.count - 1])
+            messagesCollectionView.scrollToBottom()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
+    {
+        print("Failed to find user's location: \(error.localizedDescription)")
+    }
+}
+

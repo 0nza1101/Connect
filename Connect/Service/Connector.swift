@@ -23,8 +23,8 @@ public class Connector {
     }
     
     func send(text: String) -> Void {
-        let myNSString = text as NSString
-        let dataToSend = myNSString.data(using: String.Encoding.utf8.rawValue)!
+        let dictionary = ["text": text]
+        let dataToSend = NSKeyedArchiver.archivedData(withRootObject: dictionary)
         do {
             try service.send(data: dataToSend)
         }
@@ -34,7 +34,35 @@ public class Connector {
     }
     
     func send(location: CLLocation) -> Void {
+        let dictionary = ["location": location]
+        let dataToSend = NSKeyedArchiver.archivedData(withRootObject: dictionary)
+        do {
+            try service.send(data: dataToSend)
+        }
+        catch {
+            print("Can't send the message to the other peer.")
+        }
+    }
     
+    func send(disconnect: String) -> Void {
+        let dictionary = ["disconnect": disconnect]
+        let dataToSend = NSKeyedArchiver.archivedData(withRootObject: dictionary)
+        do {
+            try service.send(data: dataToSend)
+        }
+        catch {
+            print("Can't send the message to the other peer.")
+        }
+    }
+    
+    func startStream(streamName: String) -> OutputStream {
+        do {
+            return try service.startStream(name: streamName)
+        }
+        catch{
+            print("Can't start stream to the other peer.")
+        }
+        return OutputStream()
     }
     
 }

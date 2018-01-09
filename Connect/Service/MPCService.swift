@@ -17,6 +17,7 @@ internal class MPCService: NSObject {
     
     typealias PeersChangedCallback = (_ peers: [MCPeerID]) -> Void
     typealias DataReceivedCallback = (_ data: Data, _ peer: MCPeerID) -> Void
+    typealias StreamReceivedCallback = (_ stream: InputStream, _ streamName: String, _ peer: MCPeerID) -> Void
     typealias InvitationReceivedCallback = (_ from: String) -> Void
     typealias ConnectedWithCallback = (_ peer: MCPeerID) -> Void
     typealias FoundedPeersCallback = () -> Void
@@ -24,6 +25,8 @@ internal class MPCService: NSObject {
     
     // This callback will be called when the session receives data from one of the connected peers.
     var dataReceived: DataReceivedCallback?
+    // This callback will be called when the session receives data from one of the connected peers.
+    var streamReceived: StreamReceivedCallback?
     // This callback will be called when the list of connected peers changes.
     var peersChanged: PeersChangedCallback?
     // This callback will be called when the user receive invitation from a peer.
@@ -107,6 +110,13 @@ internal class MPCService: NSObject {
         try session.send(data, toPeers: session.connectedPeers, with: .reliable)
     }
     
+    func startStream(name: String) throws -> OutputStream {
+        guard session.connectedPeers.count > 0 else {
+            throw ServiceError.noConnectedPeers
+        }
+        return try session.startStream(withName: name, toPeer: session.connectedPeers[0])
+    }
+    
     deinit {
         // Stop MultiPeer Stuff
         stopSvc()
@@ -116,9 +126,13 @@ internal class MPCService: NSObject {
 
 /** Delegate **/
 
-private extension MPCService {
-    func notifyReceive(data: Data, from peer: MCPeerID) {
+fileprivate extension MPCService {
+    func notifyDataReceived(data: Data, from peer: MCPeerID) {
         dataReceived?(data, peer)
+    }
+    
+    func notifyStreamReceived(stream: InputStream, streamName: String, from peer: MCPeerID) {
+        streamReceived?(stream, streamName, peer)
     }
     
     func notifyPeersChanged(peers: [MCPeerID]) {
@@ -204,11 +218,13 @@ extension MPCService: MCSessionDelegate {
     // Called when a peer sends an NSData to us
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         DispatchQueue.main.async {
-            self.notifyReceive(data: data, from: peerID)
+            self.notifyDataReceived(data: data, from: peerID)
         }
     }
     // Called when a peer establishes a stream with us
-    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {}
+    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+        notifyStreamReceived(stream: stream, streamName: streamName, from: peerID)
+    }
     // Called when a peer starts sending a file to us
     func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {}
     // Called when a file has finished transferring from another peer

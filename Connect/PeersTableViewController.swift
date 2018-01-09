@@ -36,7 +36,7 @@ class PeersTableViewController: UITableViewController {
     
     func connectedWithPeer(peerID: MCPeerID) {
         OperationQueue.main.addOperation { () in
-            self.performSegue(withIdentifier: "SegueChatRoomViewController", sender: self)
+            self.navigationController?.pushViewController(ChatRoomViewController(), animated: true)
         }
     }
     
