@@ -1,7 +1,7 @@
 //
 //  FrameExtractor.swift
 //  Created by Bobo on 29/12/2016.
-// Taken from : https://github.com/b-r-o/FrameExtractor
+//
 
 import UIKit
 import AVFoundation
@@ -83,7 +83,10 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     }
     
     private func selectCaptureDevice() -> AVCaptureDevice? {
-        return AVCaptureDevice.DiscoverySession(deviceTypes: [AVCaptureDevice.DeviceType.builtInWideAngleCamera], mediaType: AVMediaType.video, position: AVCaptureDevice.Position.front).devices.first
+        return AVCaptureDevice.devices().filter {
+            ($0 as AnyObject).hasMediaType(AVMediaType.video) &&
+                ($0 as AnyObject).position == position
+            }.first
     }
     
     // MARK: Sample buffer to UIImage conversion
@@ -95,10 +98,11 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     }
     
     // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+    func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let uiImage = imageFromSampleBuffer(sampleBuffer: sampleBuffer) else { return }
         DispatchQueue.main.async { [unowned self] in
             self.delegate?.captured(image: uiImage)
         }
     }
 }
+

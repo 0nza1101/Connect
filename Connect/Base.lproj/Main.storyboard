@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gur-4B-GSd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gur-4B-GSd">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -110,7 +110,55 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lTP-9K-pQO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1346" y="124"/>
+            <point key="canvasLocation" x="1174" y="124"/>
+        </scene>
+        <!--Live Video View Controller-->
+        <scene sceneID="iwC-ZU-oo1">
+            <objects>
+                <viewController storyboardIdentifier="liveVideo" id="c7F-jM-3c4" customClass="LiveVideoViewController" customModule="Connect" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uhl-B6-sQv">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1SG-Sr-9ZJ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rL9-YU-gvU">
+                                <rect key="frame" x="234" y="446" width="125" height="201"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xND-aq-nna">
+                                <rect key="frame" x="160" y="592" width="55" height="55"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.36697172845874304" blue="0.30273097072422905" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <connections>
+                                    <action selector="CancelVideoCall:" destination="c7F-jM-3c4" eventType="touchUpInside" id="DMK-7d-9tc"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IFk-R9-dxB">
+                                <rect key="frame" x="295" y="20" width="64" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="Rear Camera Icon"/>
+                                <connections>
+                                    <action selector="switchCamera:" destination="c7F-jM-3c4" eventType="touchUpInside" id="rMv-FK-qvZ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <viewLayoutGuide key="safeArea" id="K7F-9N-nw5"/>
+                    </view>
+                    <connections>
+                        <outlet property="stopVideoCall" destination="xND-aq-nna" id="cfl-zA-5Q3"/>
+                        <outlet property="streamView" destination="1SG-Sr-9ZJ" id="NSA-Dk-K9L"/>
+                        <outlet property="toogleFlipCamera" destination="IFk-R9-dxB" id="fv4-V0-icE"/>
+                        <outlet property="userView" destination="rL9-YU-gvU" id="B68-I4-uu6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ktq-ZT-HC5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1945" y="124"/>
         </scene>
         <!--Chat-->
         <scene sceneID="zk8-6L-667">
@@ -132,4 +180,7 @@
             <point key="canvasLocation" x="-538" y="124"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Rear Camera Icon" width="24" height="24"/>
+    </resources>
 </document>
