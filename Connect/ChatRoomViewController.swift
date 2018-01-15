@@ -61,10 +61,10 @@ class ChatRoomViewController: MessagesViewController {
         messageInputBar.inputTextView.layer.borderWidth = 0
         let items =
             [makeButton(named: "ic_camera").onTouchUpInside { _ in
-                print("DO SOMETHING WITH THE CAMERA")
+                self.openCameraAction()
             },
             makeButton(named: "ic_library").onTouchUpInside { _ in
-                print("DO SOMETHING WITH THE GALLERY")
+                self.openGalleryAction()
             },
             makeButton(named: "pin").onTouchUpInside { _ in
                 self.determineMyCurrentLocation()
@@ -348,6 +348,57 @@ extension ChatRoomViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
     {
         print("Failed to find user's location: \(error.localizedDescription)")
+    }
+}
+
+extension ChatRoomViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func openCameraAction() {
+        if(UIImagePickerController .isSourceTypeAvailable(.camera)) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera;
+            imagePicker.cameraCaptureMode = .photo
+            imagePicker.allowsEditing = false
+            present(imagePicker, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Camera Not Found", message: "This device has no Camera", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style:.default, handler: nil)
+            alert.addAction(ok)
+            present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func openGalleryAction() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .photoLibrary
+        
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        var newImage: UIImage
+        
+        if let possibleImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
+            newImage = possibleImage
+        } else if let possibleImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
+            newImage = possibleImage
+        } else {
+            return
+        }
+        connector.send(image: newImage)
+        
+        let message = MockMessage(image: newImage, sender: currentSender(), messageId: UUID().uuidString, date: Date())
+        messagesArray.append(message)
+        messagesCollectionView.insertSections([messagesArray.count - 1])
+        messagesCollectionView.scrollToBottom()
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
 }
 

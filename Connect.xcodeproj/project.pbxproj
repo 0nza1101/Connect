@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		042AACAA9A0BCF5FB054C6D6 /* Pods_Connect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4075A6C38DDE10261B688D69 /* Pods_Connect.framework */; };
+		D2EF0F69200CAFDE00CE9E88 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EF0F68200CAFDE00CE9E88 /* ProfileViewController.swift */; };
 		DF1D3ABA1FF77C9800EB5BD5 /* MockMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1D3AB91FF77C9800EB5BD5 /* MockMessage.swift */; };
 		DF5F537F200BDBFF0029233A /* LiveVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF5F537E200BDBFF0029233A /* LiveVideoViewController.swift */; };
 		DF85F0901FF04B9D0018C150 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF85F08F1FF04B9D0018C150 /* AppDelegate.swift */; };
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		3EFEF9836F5E525C923F27F7 /* Pods-Connect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Connect/Pods-Connect.debug.xcconfig"; sourceTree = "<group>"; };
 		4075A6C38DDE10261B688D69 /* Pods_Connect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Connect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2EF0F68200CAFDE00CE9E88 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		D6B0E7EAAD92639C99565736 /* Pods-Connect.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect.release.xcconfig"; path = "Pods/Target Support Files/Pods-Connect/Pods-Connect.release.xcconfig"; sourceTree = "<group>"; };
 		DF1D3AB91FF77C9800EB5BD5 /* MockMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockMessage.swift; sourceTree = "<group>"; };
 		DF5F537E200BDBFF0029233A /* LiveVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveVideoViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				DFE7AC431FF57D840046C5DC /* ChatRoomViewController.swift */,
 				DF5F537E200BDBFF0029233A /* LiveVideoViewController.swift */,
 				DF1D3AB91FF77C9800EB5BD5 /* MockMessage.swift */,
+				D2EF0F68200CAFDE00CE9E88 /* ProfileViewController.swift */,
 			);
 			path = Connect;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 				DFE7AC3C1FF4B7C90046C5DC /* Connector.swift in Sources */,
 				DF85F0901FF04B9D0018C150 /* AppDelegate.swift in Sources */,
 				DFCBD5B2200CD4AE00F9327D /* FrameExtractor.swift in Sources */,
+				D2EF0F69200CAFDE00CE9E88 /* ProfileViewController.swift in Sources */,
 				DF5F537F200BDBFF0029233A /* LiveVideoViewController.swift in Sources */,
 				DF85F0981FF04B9D0018C150 /* Connect.xcdatamodeld in Sources */,
 			);
