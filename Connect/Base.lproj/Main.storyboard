@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9jW-E1-TKP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gur-4B-GSd">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -53,6 +53,50 @@
             </objects>
             <point key="canvasLocation" x="444" y="123.68815592203899"/>
         </scene>
+        <!--Settings-->
+        <scene sceneID="9tB-lf-nfO">
+            <objects>
+                <viewController id="Hxt-Gd-cRC" customClass="ProfileViewController" customModule="Connect" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oxk-zj-sQp">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eZJ-4a-Hfi">
+                                <rect key="frame" x="87" y="20" width="200" height="200"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="wzK-gi-TbH"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Settings" id="T3D-LY-wg7"/>
+                    <connections>
+                        <outlet property="profilePicture" destination="eZJ-4a-Hfi" id="VJg-BA-lcT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RoP-rj-tSG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-538.39999999999998" y="855.9220389805098"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="37H-gf-SBS">
+            <objects>
+                <tabBarController id="gur-4B-GSd" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="32A-Ec-iZO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="9jW-E1-TKP" kind="relationship" relationship="viewControllers" id="yZE-gS-74O"/>
+                        <segue destination="Hxt-Gd-cRC" kind="relationship" relationship="viewControllers" id="j1C-Xa-G81"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rja-R6-N0x" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1319" y="124"/>
+        </scene>
         <!--Chat Room View Controller-->
         <scene sceneID="hnf-zf-Afs">
             <objects>
@@ -68,10 +112,11 @@
             </objects>
             <point key="canvasLocation" x="1346" y="124"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Chat-->
         <scene sceneID="zk8-6L-667">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9jW-E1-TKP" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Chat" id="8oG-Vp-Dew"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="vBZ-f1-fTb">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>

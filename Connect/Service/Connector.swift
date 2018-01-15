@@ -44,6 +44,17 @@ public class Connector {
         }
     }
     
+    func send(image: UIImage) -> Void {
+        let dictionary = ["image": image]
+        let dataToSend = NSKeyedArchiver.archivedData(withRootObject: dictionary)
+        do {
+            try service.send(data: dataToSend)
+        }
+        catch {
+            print("Can't send the message to the other peer.")
+        }
+    }
+    
     func send(disconnect: String) -> Void {
         let dictionary = ["disconnect": disconnect]
         let dataToSend = NSKeyedArchiver.archivedData(withRootObject: dictionary)
