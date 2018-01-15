@@ -139,7 +139,8 @@ class ChatRoomViewController: MessagesViewController {
             transition.type = kCATransitionMoveIn
             transition.subtype = kCATransitionFromTop
             self.navigationController?.view.layer.add(transition, forKey: nil)
-            self.navigationController?.pushViewController(LiveVideoViewController(), animated: false)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            self.navigationController?.pushViewController(storyboard.instantiateViewController(withIdentifier: "liveVideo"), animated: false)
         }
         
         let declineAction = UIAlertAction(title: "🚫 Decline", style: .default) { (action:UIAlertAction) in
@@ -182,7 +183,8 @@ class ChatRoomViewController: MessagesViewController {
                transition.type = kCATransitionMoveIn
                transition.subtype = kCATransitionFromTop
                self.navigationController?.view.layer.add(transition, forKey: nil)
-               self.navigationController?.pushViewController(LiveVideoViewController(), animated: false)
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                self.navigationController?.pushViewController(storyboard.instantiateViewController(withIdentifier: "liveVideo"), animated: false)
             }
         }
 
