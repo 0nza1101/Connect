@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		042AACAA9A0BCF5FB054C6D6 /* Pods_Connect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4075A6C38DDE10261B688D69 /* Pods_Connect.framework */; };
 		DF1D3ABA1FF77C9800EB5BD5 /* MockMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1D3AB91FF77C9800EB5BD5 /* MockMessage.swift */; };
+		DF5F537F200BDBFF0029233A /* LiveVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF5F537E200BDBFF0029233A /* LiveVideoViewController.swift */; };
 		DF85F0901FF04B9D0018C150 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF85F08F1FF04B9D0018C150 /* AppDelegate.swift */; };
 		DF85F0921FF04B9D0018C150 /* PeersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF85F0911FF04B9D0018C150 /* PeersTableViewController.swift */; };
 		DF85F0951FF04B9D0018C150 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF85F0931FF04B9D0018C150 /* Main.storyboard */; };
@@ -25,6 +26,7 @@
 		4075A6C38DDE10261B688D69 /* Pods_Connect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Connect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6B0E7EAAD92639C99565736 /* Pods-Connect.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Connect.release.xcconfig"; path = "Pods/Target Support Files/Pods-Connect/Pods-Connect.release.xcconfig"; sourceTree = "<group>"; };
 		DF1D3AB91FF77C9800EB5BD5 /* MockMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockMessage.swift; sourceTree = "<group>"; };
+		DF5F537E200BDBFF0029233A /* LiveVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveVideoViewController.swift; sourceTree = "<group>"; };
 		DF85F08C1FF04B9D0018C150 /* Connect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Connect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF85F08F1FF04B9D0018C150 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF85F0911FF04B9D0018C150 /* PeersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeersTableViewController.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				DF85F0961FF04B9D0018C150 /* Connect.xcdatamodeld */,
 				DF1D3AB91FF77C9800EB5BD5 /* MockMessage.swift */,
 				DFE7AC431FF57D840046C5DC /* ChatRoomViewController.swift */,
+				DF5F537E200BDBFF0029233A /* LiveVideoViewController.swift */,
 			);
 			path = Connect;
 			sourceTree = "<group>";
@@ -246,6 +249,7 @@
 				DFE7AC3D1FF4B7C90046C5DC /* MPCService.swift in Sources */,
 				DFE7AC3C1FF4B7C90046C5DC /* Connector.swift in Sources */,
 				DF85F0901FF04B9D0018C150 /* AppDelegate.swift in Sources */,
+				DF5F537F200BDBFF0029233A /* LiveVideoViewController.swift in Sources */,
 				DF85F0981FF04B9D0018C150 /* Connect.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

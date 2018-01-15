@@ -36,7 +36,9 @@ class ChatRoomViewController: MessagesViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool){
-        connector.send(disconnect: "disconnect")
+        if self.isMovingFromParentViewController {
+            connector.send(disconnect: "disconnect")
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool){

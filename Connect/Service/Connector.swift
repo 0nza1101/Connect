@@ -55,14 +55,14 @@ public class Connector {
         }
     }
     
-    func startStream(streamName: String) -> OutputStream {
+    func startStream(streamName: String) -> OutputStream? {
         do {
             return try service.startStream(name: streamName)
         }
         catch{
             print("Can't start stream to the other peer.")
         }
-        return OutputStream()
+        return nil
     }
     
 }
