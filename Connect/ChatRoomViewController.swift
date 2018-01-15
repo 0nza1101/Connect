@@ -35,7 +35,7 @@ class ChatRoomViewController: MessagesViewController {
         connector.service.dataReceived = dataReceived
     }
     
-    override func viewWillDisappear(_ animated: Bool){
+    /*override func viewWillDisappear(_ animated: Bool){
         super.viewWillDisappear(animated)
         if self.isMovingFromParentViewController {
             connector.send(disconnect: "disconnect")
@@ -45,7 +45,7 @@ class ChatRoomViewController: MessagesViewController {
     override func viewDidDisappear(_ animated: Bool){
         super.viewDidDisappear(animated)
         connector.service.session.disconnect()
-    }
+    }*/
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -358,6 +358,7 @@ extension ChatRoomViewController : UIImagePickerControllerDelegate, UINavigation
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = .camera;
+            imagePicker.cameraFlashMode = .off
             imagePicker.cameraCaptureMode = .photo
             imagePicker.allowsEditing = false
             present(imagePicker, animated: true, completion: nil)
