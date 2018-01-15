@@ -54,6 +54,17 @@ public class Connector {
             print("Can't send the message to the other peer.")
         }
     }
+
+    func send(videoCall: String) -> Void {
+        let dictionary = ["videoCall": videoCall]
+        let dataToSend = NSKeyedArchiver.archivedData(withRootObject: dictionary)
+        do {
+            try service.send(data: dataToSend)
+        }
+        catch {
+            print("Can't send the message to the other peer.")
+        }
+    }
     
     func startStream(streamName: String) -> OutputStream? {
         do {

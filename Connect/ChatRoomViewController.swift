@@ -36,12 +36,14 @@ class ChatRoomViewController: MessagesViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool){
+        super.viewWillDisappear(animated)
         if self.isMovingFromParentViewController {
             connector.send(disconnect: "disconnect")
         }
     }
     
     override func viewDidDisappear(_ animated: Bool){
+        super.viewDidDisappear(animated)
         connector.service.session.disconnect()
     }
 
@@ -68,7 +70,7 @@ class ChatRoomViewController: MessagesViewController {
                 self.determineMyCurrentLocation()
             },
             makeButton(named: "ic_videocall").onTouchUpInside { _ in
-                print("DO SOMETHING WITH THE VIDEOCALL")
+                connector.send(videoCall: "invitation")
             },
             .flexibleSpace,
             messageInputBar.sendButton
@@ -126,6 +128,30 @@ class ChatRoomViewController: MessagesViewController {
             }
     }
     
+    func videoCallAlert(from: String){
+        let alertController = UIAlertController(title: "📹", message: "\(from) wants to start a video call with you.", preferredStyle: .alert)
+        
+        let acceptAction = UIAlertAction(title: "📞 Accept", style: .default) { (action:UIAlertAction) in
+            connector.send(videoCall: "accepted")
+            let transition = CATransition()
+            transition.duration = 0.5
+            transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+            transition.type = kCATransitionMoveIn
+            transition.subtype = kCATransitionFromTop
+            self.navigationController?.view.layer.add(transition, forKey: nil)
+            self.navigationController?.pushViewController(LiveVideoViewController(), animated: false)
+        }
+        
+        let declineAction = UIAlertAction(title: "🚫 Decline", style: .default) { (action:UIAlertAction) in
+            //connector.send(videoCall: "declined")
+        }
+        
+        alertController.addAction(acceptAction)
+        alertController.addAction(declineAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     func dataReceived(data: Data, peer: MCPeerID) {
         let dataDictionary = NSKeyedUnarchiver.unarchiveObject(with: data) as! [String: Any]
         
@@ -144,7 +170,22 @@ class ChatRoomViewController: MessagesViewController {
             messagesCollectionView.insertSections([messagesArray.count - 1])
             messagesCollectionView.scrollToBottom()
         }
-        
+    
+        if let videoCall = dataDictionary["videoCall"] {
+            if(videoCall as! String == "invitation"){
+               videoCallAlert(from: peer.displayName)
+            }
+            else{
+               let transition = CATransition()
+               transition.duration = 0.5
+               transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+               transition.type = kCATransitionMoveIn
+               transition.subtype = kCATransitionFromTop
+               self.navigationController?.view.layer.add(transition, forKey: nil)
+               self.navigationController?.pushViewController(LiveVideoViewController(), animated: false)
+            }
+        }
+
         if (dataDictionary["disconnect"] != nil) {
             self.navigationController?.popViewController(animated: true)
         }
