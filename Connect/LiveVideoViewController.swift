@@ -91,6 +91,8 @@ extension LiveVideoViewController: FrameExtractorDelegate {
     
     func captured(image: UIImage) {
         userView.image = image
-        connector.sendStream(image: image)
+        DispatchQueue.main.async {
+            connector.sendStream(image: image)
+        }
     }
 }
