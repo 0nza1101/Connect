@@ -138,7 +138,7 @@ extension LiveVideoViewController : StreamDelegate {
                 numberOfBytesRead = inputStream.read(buffer, maxLength: MemoryLayout.size(ofValue: buffer))
                 if numberOfBytesRead > 0 {
                     data = Data(bytes: &buffer, count: numberOfBytesRead)
-                    if data {
+                    if data.count > 0 {
                         let dataDictionary = NSKeyedUnarchiver.unarchiveObject(with: data) as! [String: Any]
                         if let image = dataDictionary["live"] {
                             print("Got an image")
