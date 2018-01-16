@@ -32,11 +32,12 @@ class ChatRoomViewController: MessagesViewController {
         
         scrollsToBottomOnKeybordBeginsEditing = true
         maintainPositionOnKeyboardFrameChanged = true
+        tabBarController?.tabBar.isHidden = false
         
         connector.service.dataReceived = dataReceived
     }
     
-    /*override func viewWillDisappear(_ animated: Bool){
+    override func viewWillDisappear(_ animated: Bool){
         super.viewWillDisappear(animated)
         if self.isMovingFromParentViewController {
             connector.send(disconnect: "disconnect")
@@ -48,7 +49,8 @@ class ChatRoomViewController: MessagesViewController {
         if self.isMovingFromParentViewController {
             connector.service.session.disconnect()
         }
-    }*/
+        tabBarController?.tabBar.isHidden = false
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

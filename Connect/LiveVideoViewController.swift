@@ -29,8 +29,10 @@ class LiveVideoViewController: UIViewController {
         
         connector.service.streamReceived = streamReceived
         
+        print("Starting video stream")
         outputVideoStream = connector.startStream(streamName: "liveVideo")
         if let outputStream = outputVideoStream {
+            print("Opening video stream")
             outputStream.delegate = self
             outputStream.schedule(in: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
             outputStream.open()
