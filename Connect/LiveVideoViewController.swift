@@ -48,11 +48,8 @@ class LiveVideoViewController: UIViewController {
     }
     
     func dataReceived(data: Data, peer: MCPeerID) {
-        let dataDictionary = NSKeyedUnarchiver.unarchiveObject(with: data) as! [String: Any]
-        
-        if let image = dataDictionary["live"] {
-            streamView.image = (image as! UIImage)
-        }
+        let image = UIImage(data: data)
+        streamView.image = image
     }
     
     func closeView() {
@@ -66,6 +63,7 @@ class LiveVideoViewController: UIViewController {
     }
     
     func styleCaptureButton() {
+        stopVideoCall.image
         stopVideoCall.layer.borderColor = UIColor.white.cgColor
         stopVideoCall.layer.borderWidth = 2
         stopVideoCall.layer.cornerRadius = min(stopVideoCall.frame.width, stopVideoCall.frame.height) / 2
@@ -78,10 +76,10 @@ class LiveVideoViewController: UIViewController {
     @IBAction func switchCamera(_ sender: Any) {
         frameExtractor.flipCamera()
         if toogleFlipCamera.currentImage == UIImage(named: "Rear Camera Icon"){
-            toogleFlipCamera.setImage(#imageLiteral(resourceName: "Front Camera Icon"), for: .normal)
+            toogleFlipCamera.setImage(#imageLiteral(resourceName: "Rear Camera Icon"), for: .normal)
         }
         else{
-            toogleFlipCamera.setImage(#imageLiteral(resourceName: "Rear Camera Icon"), for: .normal)
+            toogleFlipCamera.setImage(#imageLiteral(resourceName: "Front Camera Icon"), for: .normal)
         }
     }
 }

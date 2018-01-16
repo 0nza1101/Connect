@@ -82,10 +82,11 @@ public class Connector {
     //Stream
     
     func sendStream(image: UIImage) {
-        let dictionary = ["live": image]
-        let dataToSend = NSKeyedArchiver.archivedData(withRootObject: dictionary)
+        let img = UIImageJPEGRepresentation(image, 0.1)
         do {
-            try service.send(data: dataToSend)
+            if let imageData = img {
+                try service.send(data: imageData)
+            }
         }
         catch {
             print("Can't send the message to the other peer.")
