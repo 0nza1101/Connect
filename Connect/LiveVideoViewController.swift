@@ -19,7 +19,7 @@ class LiveVideoViewController: UIViewController {
     @IBOutlet weak var streamView: UIImageView!
     
     var frameExtractor: FrameExtractor!
-    var outputStream: OutputStream?
+    var outputVideoStream: OutputStream?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +29,8 @@ class LiveVideoViewController: UIViewController {
         
         connector.service.streamReceived = streamReceived
         
-        outputStream = connector.startStream(streamName: "liveVideo")
-        if let outputStream = outputStream {
+        outputVideoStream = connector.startStream(streamName: "liveVideo")
+        if let outputStream = outputVideoStream {
             outputStream.delegate = self
             outputStream.schedule(in: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
             outputStream.open()
@@ -57,11 +57,11 @@ class LiveVideoViewController: UIViewController {
     }
     
     func closeView() {
-        if let outputStream = outputStream{
+        if let outputStream = outputVideoStream {
             outputStream.close()
             outputStream.remove(from: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
         }
-        outputStream = nil
+        outputVideoStream = nil
         
         let transition = CATransition()
         transition.duration = 0.5
@@ -84,9 +84,15 @@ class LiveVideoViewController: UIViewController {
         stream.open()
     }
     
+    func sendStreamImage(_ image: UIImage){
+        if let outputStream = outputVideoStream {
+            let dataToStream: Data = NSKeyedArchiver.archivedData(withRootObject: image)
+            _ = outputStream.write(data: dataToStream)
+        }
+    }
+    
     @IBAction func CancelVideoCall(_ sender: Any) {
         closeView()
-        //TODO : Stop the stream
     }
 
     @IBAction func switchCamera(_ sender: Any) {
@@ -101,11 +107,30 @@ class LiveVideoViewController: UIViewController {
 }
 
 //MARK : Stream event 🔢
+extension OutputStream {
+    func write(data: Data) -> Int {
+        return data.withUnsafeBytes { write($0, maxLength: data.count) }
+    }
+}
+
+extension InputStream {
+    func read(data: inout Data) -> Int {
+        return data.withUnsafeMutableBytes { read($0, maxLength: data.count) }
+    }
+}
+
 extension LiveVideoViewController : StreamDelegate {
     func stream(_ aStream: Stream, handle eventCode: Stream.Event){
         switch(eventCode){
         case Stream.Event.hasBytesAvailable:
-            //TODO: ADD READING
+            //READING
+            let inputStream = aStream as! InputStream
+            let maxReadLength = 4096// Maybe need to be changed
+            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: maxReadLength)
+            let numberOfBytesRead = inputStream.read(buffer, maxLength: maxReadLength)
+            let data = Data(bytes: buffer, count: numberOfBytesRead)
+            let image = NSKeyedUnarchiver.unarchiveObject(with: data) as! UIImage
+            streamView.image = image
             break
         //input
         case Stream.Event.hasSpaceAvailable:
@@ -121,9 +146,6 @@ extension LiveVideoViewController: FrameExtractorDelegate {
     
     func captured(image: UIImage) {
         userView.image = image
-        let data = NSKeyedArchiver.archivedData(withRootObject: image)
-        if let outputStream = outputStream{
-            //outputStream.write(UnsafeMutablePointer(data.bytes), maxLength: data.length)
-        }
+        sendStreamImage(image)
     }
 }
