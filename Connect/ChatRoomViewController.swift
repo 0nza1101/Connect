@@ -16,6 +16,7 @@ class ChatRoomViewController: MessagesViewController {
     
     var locationManager: CLLocationManager = CLLocationManager()
     var locationMsgUid: String = ""
+    var imageMessageId: String = ""
     var messagesArray: [MessageType] = []
 
     override func viewDidLoad() {
@@ -167,6 +168,14 @@ class ChatRoomViewController: MessagesViewController {
         if let location = dataDictionary["location"] {
             let sender = Sender(id: peer.displayName, displayName: peer.displayName)
             let message = MockMessage(location: location as! CLLocation, sender: sender, messageId: UUID().uuidString, date: Date())
+            messagesArray.append(message)
+            messagesCollectionView.insertSections([messagesArray.count - 1])
+            messagesCollectionView.scrollToBottom()
+        }
+        
+        if let image = dataDictionary["image"] {
+            let sender = Sender(id: peer.displayName, displayName: peer.displayName)
+            let message = MockMessage(image: image as! UIImage, sender: sender, messageId: UUID().uuidString, date: Date())
             messagesArray.append(message)
             messagesCollectionView.insertSections([messagesArray.count - 1])
             messagesCollectionView.scrollToBottom()
@@ -390,14 +399,15 @@ extension ChatRoomViewController : UIImagePickerControllerDelegate, UINavigation
         } else {
             return
         }
+        
         connector.send(image: newImage)
         
         let message = MockMessage(image: newImage, sender: currentSender(), messageId: UUID().uuidString, date: Date())
         messagesArray.append(message)
         messagesCollectionView.insertSections([messagesArray.count - 1])
         messagesCollectionView.scrollToBottom()
-        dismiss(animated: true, completion: nil)
         
+        dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
