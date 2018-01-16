@@ -33,7 +33,10 @@ class ChatRoomViewController: MessagesViewController {
         scrollsToBottomOnKeybordBeginsEditing = true
         maintainPositionOnKeyboardFrameChanged = true
         self.tabBarController?.tabBar.isHidden = false
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         connector.service.dataReceived = dataReceived
     }
     

@@ -22,6 +22,8 @@ public class Connector {
         service.startSvc()
     }
     
+    //Message
+    
     func send(text: String) -> Void {
         let dictionary = ["text": text]
         let dataToSend = NSKeyedArchiver.archivedData(withRootObject: dictionary)
@@ -77,14 +79,17 @@ public class Connector {
         }
     }
     
-    func startStream(streamName: String) -> OutputStream? {
+    //Stream
+    
+    func sendStream(image: UIImage) {
+        let dictionary = ["live": image]
+        let dataToSend = NSKeyedArchiver.archivedData(withRootObject: dictionary)
         do {
-            return try service.startStream(name: streamName)
+            try service.send(data: dataToSend)
         }
-        catch{
-            print("Can't start stream to the other peer.")
+        catch {
+            print("Can't send the message to the other peer.")
         }
-        return nil
     }
     
 }

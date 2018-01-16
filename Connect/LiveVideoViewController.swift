@@ -15,29 +15,16 @@ class LiveVideoViewController: UIViewController {
     @IBOutlet weak var stopVideoCall: UIButton!
     
     @IBOutlet weak var userView: UIImageView!
-    
     @IBOutlet weak var streamView: UIImageView!
     
     var frameExtractor: FrameExtractor!
-    var outputVideoStream: OutputStream?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         frameExtractor = FrameExtractor()
         frameExtractor.delegate = self
-        
-        connector.service.streamReceived = streamReceived
-        
-        print("Starting video stream")
-        outputVideoStream = connector.startStream(streamName: "liveVideo")
-        if let outputStream = outputVideoStream {
-            print("Opening video stream")
-            outputStream.delegate = self
-            outputStream.schedule(in: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
-            outputStream.open()
-        }
-        
+
         styleCaptureButton()
     }
     
@@ -45,6 +32,8 @@ class LiveVideoViewController: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         self.tabBarController?.tabBar.isHidden = true
+        
+        connector.service.dataReceived = dataReceived
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -58,13 +47,15 @@ class LiveVideoViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func closeView() {
-        if let outputStream = outputVideoStream {
-            outputStream.close()
-            outputStream.remove(from: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
-        }
-        outputVideoStream = nil
+    func dataReceived(data: Data, peer: MCPeerID) {
+        let dataDictionary = NSKeyedUnarchiver.unarchiveObject(with: data) as! [String: Any]
         
+        if let image = dataDictionary["live"] {
+            streamView.image = (image as! UIImage)
+        }
+    }
+    
+    func closeView() {
         let transition = CATransition()
         transition.duration = 0.5
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
@@ -78,21 +69,6 @@ class LiveVideoViewController: UIViewController {
         stopVideoCall.layer.borderColor = UIColor.white.cgColor
         stopVideoCall.layer.borderWidth = 2
         stopVideoCall.layer.cornerRadius = min(stopVideoCall.frame.width, stopVideoCall.frame.height) / 2
-    }
-    
-    func streamReceived(stream: InputStream, streamName: String, peer: MCPeerID) {
-        stream.delegate = self
-        stream.schedule(in: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
-        stream.open()
-    }
-    
-    func sendStreamImage(_ image: UIImage){
-        if let outputStream = outputVideoStream {
-            print("Sending image into the stream")
-            let dictionary = ["live": image]
-            let dataToStream = NSKeyedArchiver.archivedData(withRootObject: dictionary)
-            _ = outputStream.write(data: dataToStream)
-        }
     }
     
     @IBAction func CancelVideoCall(_ sender: Any) {
@@ -110,59 +86,11 @@ class LiveVideoViewController: UIViewController {
     }
 }
 
-//MARK : Stream event 🔢
-extension OutputStream {
-    func write(data: Data) -> Int {
-        return data.withUnsafeBytes { write($0, maxLength: data.count) }
-    }
-}
-
-extension InputStream {
-    func read(data: inout Data) -> Int {
-        return data.withUnsafeMutableBytes { read($0, maxLength: data.count) }
-    }
-}
-
-extension LiveVideoViewController : StreamDelegate {
-    func stream(_ aStream: Stream, handle eventCode: Stream.Event){
-        switch(eventCode){
-        case Stream.Event.hasBytesAvailable:
-            //READING
-            print("Reading image from the stream")
-            let inputStream = aStream as! InputStream
-            
-            var buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 5000)
-            var numberOfBytesRead: Int;
-            var data: Data;
-            while(inputStream.hasBytesAvailable){
-                numberOfBytesRead = inputStream.read(buffer, maxLength: MemoryLayout.size(ofValue: buffer))
-                if numberOfBytesRead > 0 {
-                    data = Data(bytes: &buffer, count: numberOfBytesRead)
-                    if data.count > 0 {
-                        let dataDictionary = NSKeyedUnarchiver.unarchiveObject(with: data) as! [String: Any]
-                        if let image = dataDictionary["live"] {
-                            print("Got an image")
-                            streamView.image = (image as! UIImage)
-                        }
-                    }
-                }
-            }
-            
-            break
-        //input
-        case Stream.Event.hasSpaceAvailable:
-            break
-        //output
-        default:
-            break
-        }
-    }
-}
-
+//MARK : FrameExtractor 🔢
 extension LiveVideoViewController: FrameExtractorDelegate {
     
     func captured(image: UIImage) {
         userView.image = image
-        sendStreamImage(image)
+        connector.sendStream(image: image)
     }
 }
