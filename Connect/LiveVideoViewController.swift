@@ -130,15 +130,22 @@ extension LiveVideoViewController : StreamDelegate {
             //READING
             print("Reading image from the stream")
             let inputStream = aStream as! InputStream
-            let maxReadLength = 4096// Maybe need to be changed
-            let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: maxReadLength)
-            let numberOfBytesRead = inputStream.read(buffer, maxLength: maxReadLength)
-            let data = Data(bytes: buffer, count: numberOfBytesRead)
             
-            let dataDictionary = NSKeyedUnarchiver.unarchiveObject(with: data) as! [String: Any]
-            if let image = dataDictionary["live"] {
-                print("Got an image")
-                streamView.image = (image as! UIImage)
+            var buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 5000)
+            var numberOfBytesRead: Int;
+            var data: Data;
+            while(inputStream.hasBytesAvailable){
+                numberOfBytesRead = inputStream.read(buffer, maxLength: MemoryLayout.size(ofValue: buffer))
+                if numberOfBytesRead > 0 {
+                    data = Data(bytes: &buffer, count: numberOfBytesRead)
+                    if data {
+                        let dataDictionary = NSKeyedUnarchiver.unarchiveObject(with: data) as! [String: Any]
+                        if let image = dataDictionary["live"] {
+                            print("Got an image")
+                            streamView.image = (image as! UIImage)
+                        }
+                    }
+                }
             }
             
             break
