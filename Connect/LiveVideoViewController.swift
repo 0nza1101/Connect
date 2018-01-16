@@ -132,11 +132,13 @@ extension LiveVideoViewController : StreamDelegate {
             let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: maxReadLength)
             let numberOfBytesRead = inputStream.read(buffer, maxLength: maxReadLength)
             let data = Data(bytes: buffer, count: numberOfBytesRead)
-    
+            
             let dataDictionary = NSKeyedUnarchiver.unarchiveObject(with: data) as! [String: Any]
             if let image = dataDictionary["live"] {
+                print("Got an image")
                 streamView.image = (image as! UIImage)
             }
+            
             break
         //input
         case Stream.Event.hasSpaceAvailable:
