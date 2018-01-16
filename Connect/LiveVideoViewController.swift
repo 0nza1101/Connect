@@ -86,7 +86,9 @@ class LiveVideoViewController: UIViewController {
     
     func sendStreamImage(_ image: UIImage){
         if let outputStream = outputVideoStream {
-            let dataToStream: Data = NSKeyedArchiver.archivedData(withRootObject: image)
+            print("Sending image into the stream")
+            let dictionary = ["live": image]
+            let dataToStream = NSKeyedArchiver.archivedData(withRootObject: dictionary)
             _ = outputStream.write(data: dataToStream)
         }
     }
@@ -124,13 +126,17 @@ extension LiveVideoViewController : StreamDelegate {
         switch(eventCode){
         case Stream.Event.hasBytesAvailable:
             //READING
+            print("Reading image from the stream")
             let inputStream = aStream as! InputStream
             let maxReadLength = 4096// Maybe need to be changed
             let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: maxReadLength)
             let numberOfBytesRead = inputStream.read(buffer, maxLength: maxReadLength)
             let data = Data(bytes: buffer, count: numberOfBytesRead)
-            let image = NSKeyedUnarchiver.unarchiveObject(with: data) as! UIImage
-            streamView.image = image
+    
+            let dataDictionary = NSKeyedUnarchiver.unarchiveObject(with: data) as! [String: Any]
+            if let image = dataDictionary["live"] {
+                streamView.image = (image as! UIImage)
+            }
             break
         //input
         case Stream.Event.hasSpaceAvailable:
