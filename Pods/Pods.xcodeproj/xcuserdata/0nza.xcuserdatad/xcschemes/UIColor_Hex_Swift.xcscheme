@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '6A1CE7AD04AD5717FAF89136044F5932'
-               BlueprintName = 'MessageKit-MessageKitAssets'
+               BlueprintIdentifier = 'CF0DDF8348E71419BAD0A9FA7BAD4DEA'
+               BlueprintName = 'UIColor_Hex_Swift'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'MessageKitAssets.bundle'>
+               BuildableName = 'UIColor_Hex_Swift.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

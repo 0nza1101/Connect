@@ -28,7 +28,6 @@ class PeersTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
     func refreshTable() {
         print("Refreshing table data")
         tableView.reloadData()

@@ -1,12 +1,15 @@
 PODS:
   - MessageKit (0.12.0)
+  - UIColor_Hex_Swift (4.0.1)
 
 DEPENDENCIES:
   - MessageKit
+  - UIColor_Hex_Swift
 
 SPEC CHECKSUMS:
   MessageKit: 9455b04be28eb7c50a00962e6168672cd3d403ae
+  UIColor_Hex_Swift: c5ff88470499383b8fd85302d59344bb24ba9436
 
-PODFILE CHECKSUM: 15703fe7a54d027a3fa3318c18c06da5c27e60ad
+PODFILE CHECKSUM: d25c8539cd25f0bb3456ceb1ecee2f6767ec8dc2
 
 COCOAPODS: 1.3.1
