@@ -14,6 +14,7 @@ import MultipeerConnectivity
 
 class ChatRoomViewController: MessagesViewController {
     
+    var recipientUserName: String = ""
     var locationManager: CLLocationManager = CLLocationManager()
     var locationMsgUid: String = ""
     var imageMessageId: String = ""
@@ -37,6 +38,7 @@ class ChatRoomViewController: MessagesViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         connector.service.dataReceived = dataReceived
+        self.navigationItem.title = recipientUserName
         self.tabBarController?.tabBar.isHidden = true
     }
     
