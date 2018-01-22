@@ -19,6 +19,7 @@ class ChatRoomViewController: MessagesViewController {
     var locationMsgUid: String = ""
     var imageMessageId: String = ""
     var messagesArray: [MessageType] = []
+    var recipientAvatar: UIImage = #imageLiteral(resourceName: "default_profile_pic")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,12 @@ class ChatRoomViewController: MessagesViewController {
         
         scrollsToBottomOnKeybordBeginsEditing = true
         maintainPositionOnKeyboardFrameChanged = true
+        
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! + "/" + "profile_picture.jpg"
+        if let image = UIImage(contentsOfFile: path) {
+            connector.send(avatar: image)
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -166,6 +173,10 @@ class ChatRoomViewController: MessagesViewController {
     func dataReceived(data: Data, peer: MCPeerID) {
         let dataDictionary = NSKeyedUnarchiver.unarchiveObject(with: data) as! [String: Any]
         
+        if let avatar = dataDictionary["avatar"] {
+            recipientAvatar = avatar as! UIImage
+        }
+        
         if let text = dataDictionary["text"] {
             let sender = Sender(id: peer.displayName, displayName: peer.displayName)
             let message = MockMessage(text: text as! String, sender: sender, messageId: UUID().uuidString, date: Date())
@@ -246,6 +257,20 @@ extension ChatRoomViewController: MessagesDataSource {
         return NSAttributedString(string: dateString, attributes: [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: .caption2)])
     }
     
+    func avatar(for message: MessageType, at  indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> Avatar {
+        // Show the profile picture of the sender in his avatar view || DOES NOT WORK!
+        let fileName = "profile_picture.jpg"
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! + "/" + fileName
+        if message.sender.displayName == currentSender().displayName {
+            if let image = UIImage(contentsOfFile: path) {
+                return Avatar(image: image, initials: "?")
+            }
+        } else {
+            return Avatar(image: recipientAvatar, initials: "?")
+        }
+        return Avatar()
+    }
+    
 }
 
 extension ChatRoomViewController: MessageInputBarDelegate {
@@ -287,16 +312,9 @@ extension ChatRoomViewController: MessagesDisplayDelegate {
         return .bubbleTail(corner, .curved)
     }
     
-    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
-        // Show the profile picture of the sender in his avatar view || DOES NOT WORK!
-        let fileName = "profile_picture.png"
-        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! + "/" + fileName
-        if let image = UIImage(contentsOfFile: path) {
-            print("I FOUND A FILE !")
-            let avatar = Avatar(image: image, initials: String(describing: message.sender.displayName.first))
-            avatarView.set(avatar: avatar)
-        }
-    }
+    /*func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        
+    }*/
 }
 
 extension ChatRoomViewController: MessagesLayoutDelegate {
@@ -440,4 +458,3 @@ extension ChatRoomViewController : UIImagePickerControllerDelegate, UINavigation
         dismiss(animated: true, completion: nil)
     }
 }
-
