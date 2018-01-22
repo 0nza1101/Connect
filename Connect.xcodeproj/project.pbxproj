@@ -15,9 +15,9 @@
 		DF85F0921FF04B9D0018C150 /* PeersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF85F0911FF04B9D0018C150 /* PeersTableViewController.swift */; };
 		DF85F0951FF04B9D0018C150 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF85F0931FF04B9D0018C150 /* Main.storyboard */; };
 		DF85F0981FF04B9D0018C150 /* Connect.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DF85F0961FF04B9D0018C150 /* Connect.xcdatamodeld */; };
-		DF85F09A1FF04B9D0018C150 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF85F0991FF04B9D0018C150 /* Assets.xcassets */; };
 		DF85F09D1FF04B9D0018C150 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF85F09B1FF04B9D0018C150 /* LaunchScreen.storyboard */; };
 		DFCBD5B2200CD4AE00F9327D /* FrameExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCBD5B1200CD4AD00F9327D /* FrameExtractor.swift */; };
+		DFDE5AEB201409FA006589DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DFDE5AEA201409FA006589DC /* Assets.xcassets */; };
 		DFE7AC3C1FF4B7C90046C5DC /* Connector.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE7AC3A1FF4B7C90046C5DC /* Connector.swift */; };
 		DFE7AC3D1FF4B7C90046C5DC /* MPCService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE7AC3B1FF4B7C90046C5DC /* MPCService.swift */; };
 		DFE7AC441FF57D840046C5DC /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE7AC431FF57D840046C5DC /* ChatRoomViewController.swift */; };
@@ -35,10 +35,10 @@
 		DF85F0911FF04B9D0018C150 /* PeersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeersTableViewController.swift; sourceTree = "<group>"; };
 		DF85F0941FF04B9D0018C150 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DF85F0971FF04B9D0018C150 /* Connect.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Connect.xcdatamodel; sourceTree = "<group>"; };
-		DF85F0991FF04B9D0018C150 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF85F09C1FF04B9D0018C150 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DF85F09E1FF04B9D0018C150 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DFCBD5B1200CD4AD00F9327D /* FrameExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameExtractor.swift; sourceTree = "<group>"; };
+		DFDE5AEA201409FA006589DC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DFE7AC3A1FF4B7C90046C5DC /* Connector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connector.swift; sourceTree = "<group>"; };
 		DFE7AC3B1FF4B7C90046C5DC /* MPCService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPCService.swift; sourceTree = "<group>"; };
 		DFE7AC431FF57D840046C5DC /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
@@ -96,16 +96,16 @@
 			children = (
 				DFE7AC391FF4B7950046C5DC /* Service */,
 				DF85F08F1FF04B9D0018C150 /* AppDelegate.swift */,
+				DF1D3AB91FF77C9800EB5BD5 /* MockMessage.swift */,
 				DF85F0931FF04B9D0018C150 /* Main.storyboard */,
-				DF85F0991FF04B9D0018C150 /* Assets.xcassets */,
+				DFDE5AEA201409FA006589DC /* Assets.xcassets */,
 				DF85F09B1FF04B9D0018C150 /* LaunchScreen.storyboard */,
 				DF85F09E1FF04B9D0018C150 /* Info.plist */,
 				DF85F0961FF04B9D0018C150 /* Connect.xcdatamodeld */,
 				DF85F0911FF04B9D0018C150 /* PeersTableViewController.swift */,
+				D2EF0F68200CAFDE00CE9E88 /* ProfileViewController.swift */,
 				DFE7AC431FF57D840046C5DC /* ChatRoomViewController.swift */,
 				DF5F537E200BDBFF0029233A /* LiveVideoViewController.swift */,
-				DF1D3AB91FF77C9800EB5BD5 /* MockMessage.swift */,
-				D2EF0F68200CAFDE00CE9E88 /* ProfileViewController.swift */,
 			);
 			path = Connect;
 			sourceTree = "<group>";
@@ -183,7 +183,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF85F09D1FF04B9D0018C150 /* LaunchScreen.storyboard in Resources */,
-				DF85F09A1FF04B9D0018C150 /* Assets.xcassets in Resources */,
+				DFDE5AEB201409FA006589DC /* Assets.xcassets in Resources */,
 				DF85F0951FF04B9D0018C150 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -217,10 +217,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Connect/Pods-Connect-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/MessageKit/MessageKit.framework",
+				"${BUILT_PRODUCTS_DIR}/UIColor_Hex_Swift/UIColor_Hex_Swift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MessageKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIColor_Hex_Swift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

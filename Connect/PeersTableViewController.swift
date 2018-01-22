@@ -28,7 +28,6 @@ class PeersTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
     func refreshTable() {
         print("Refreshing table data")
         tableView.reloadData()
@@ -36,7 +35,9 @@ class PeersTableViewController: UITableViewController {
     
     func connectedWithPeer(peerID: MCPeerID) {
         OperationQueue.main.addOperation { () in
-            self.navigationController?.pushViewController(ChatRoomViewController(), animated: true)
+            let chatRoom = ChatRoomViewController()
+            chatRoom.recipientUserName = peerID.displayName
+            self.navigationController?.pushViewController(chatRoom, animated: true)
         }
     }
     
@@ -74,7 +75,7 @@ class PeersTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PeerCell", for: indexPath)
         
         cell.textLabel?.text = connector.service.foundPeers[indexPath.row].displayName
-        
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     

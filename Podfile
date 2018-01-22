@@ -2,5 +2,6 @@
 platform :ios, '9.0'
 use_frameworks!
 target 'Connect' do
+   pod 'UIColor_Hex_Swift'
    pod 'MessageKit'
 end

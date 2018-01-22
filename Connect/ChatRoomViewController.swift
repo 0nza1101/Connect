@@ -14,6 +14,7 @@ import MultipeerConnectivity
 
 class ChatRoomViewController: MessagesViewController {
     
+    var recipientUserName: String = ""
     var locationManager: CLLocationManager = CLLocationManager()
     var locationMsgUid: String = ""
     var imageMessageId: String = ""
@@ -37,6 +38,7 @@ class ChatRoomViewController: MessagesViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         connector.service.dataReceived = dataReceived
+        self.navigationItem.title = recipientUserName
         self.tabBarController?.tabBar.isHidden = true
     }
     
@@ -244,16 +246,6 @@ extension ChatRoomViewController: MessagesDataSource {
         return NSAttributedString(string: dateString, attributes: [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: .caption2)])
     }
     
-    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
-        // Show the profile picture of the sender in his avatar view || DOES NOT WORK!
-        let fileName = "profile_picture.png"
-        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! + "/" + fileName
-        if let image = UIImage(contentsOfFile: path) {
-            let avatar = Avatar(image: image, initials: String(describing: message.sender.displayName.first))
-            avatarView.set(avatar: avatar)
-        }
-        
-    }
 }
 
 extension ChatRoomViewController: MessageInputBarDelegate {
@@ -295,7 +287,16 @@ extension ChatRoomViewController: MessagesDisplayDelegate {
         return .bubbleTail(corner, .curved)
     }
     
-    
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        // Show the profile picture of the sender in his avatar view || DOES NOT WORK!
+        let fileName = "profile_picture.png"
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! + "/" + fileName
+        if let image = UIImage(contentsOfFile: path) {
+            print("I FOUND A FILE !")
+            let avatar = Avatar(image: image, initials: String(describing: message.sender.displayName.first))
+            avatarView.set(avatar: avatar)
+        }
+    }
 }
 
 extension ChatRoomViewController: MessagesLayoutDelegate {

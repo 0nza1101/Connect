@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Available Peers-->
+        <!--Connected users-->
         <scene sceneID="zsR-f2-Nf4">
             <objects>
                 <tableViewController id="4eo-Y3-QIj" customClass="PeersTableViewController" customModule="Connect" customModuleProvider="target" sceneMemberID="viewController">
@@ -42,7 +42,7 @@
                             <outlet property="delegate" destination="4eo-Y3-QIj" id="3iT-o3-Cic"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Available Peers" id="g8L-qA-BYh">
+                    <navigationItem key="navigationItem" title="Connected users" id="g8L-qA-BYh">
                         <barButtonItem key="backBarButtonItem" title="Back" id="Hga-uD-guX"/>
                     </navigationItem>
                     <connections>
@@ -65,9 +65,17 @@
                                 <rect key="frame" x="87" y="92" width="200" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="6oP-mp-lYy"/>
+                                    <constraint firstAttribute="width" constant="200" id="afz-cg-56A"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="eZJ-4a-Hfi" firstAttribute="centerY" secondItem="oxk-zj-sQp" secondAttribute="centerY" id="Ppy-Ea-mVq"/>
+                            <constraint firstItem="eZJ-4a-Hfi" firstAttribute="centerX" secondItem="oxk-zj-sQp" secondAttribute="centerX" id="l0n-6a-VJI"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="wzK-gi-TbH"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Settings" image="settings_25px_png24" selectedImage="settings_25px_png24" id="T3D-LY-wg7"/>
@@ -86,7 +94,6 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="32A-Ec-iZO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
                         <segue destination="9jW-E1-TKP" kind="relationship" relationship="viewControllers" id="yZE-gS-74O"/>
