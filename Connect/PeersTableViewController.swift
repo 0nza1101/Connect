@@ -25,11 +25,20 @@ class PeersTableViewController: UITableViewController {
         connector.service.invitationReceived = invitationWasReceived
         connector.service.connectedWith = connectedWithPeer
         
+        let settings = UIImage(named: "settings_25px_png24")!.withRenderingMode(.alwaysTemplate)
+        let profileButton = UIBarButtonItem(image: settings, style: .plain, target: self, action: #selector(showProfileView))
+        
+        navigationItem.rightBarButtonItem = profileButton
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @objc func showProfileView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        self.navigationController?.pushViewController(storyboard.instantiateViewController(withIdentifier: "profileView"), animated: true)
     }
     
     func refreshTable() {
