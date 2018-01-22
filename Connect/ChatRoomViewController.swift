@@ -245,6 +245,7 @@ extension ChatRoomViewController: MessagesDataSource {
         let dateString = formatter.string(from: message.sentDate)
         return NSAttributedString(string: dateString, attributes: [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: .caption2)])
     }
+    
 }
 
 extension ChatRoomViewController: MessageInputBarDelegate {
@@ -285,6 +286,17 @@ extension ChatRoomViewController: MessagesDisplayDelegate {
         let corner: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
         return .bubbleTail(corner, .curved)
     }
+    
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        // Show the profile picture of the sender in his avatar view || DOES NOT WORK!
+        let fileName = "profile_picture.png"
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! + "/" + fileName
+        if let image = UIImage(contentsOfFile: path) {
+            print("I FOUND A FILE !")
+            let avatar = Avatar(image: image, initials: String(describing: message.sender.displayName.first))
+            avatarView.set(avatar: avatar)
+        }
+    }
 }
 
 extension ChatRoomViewController: MessagesLayoutDelegate {
@@ -320,6 +332,10 @@ extension ChatRoomViewController: MessagesLayoutDelegate {
     func footerViewSize(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGSize {
         
         return CGSize(width: messagesCollectionView.bounds.width, height: 10)
+    }
+    
+    func avatarPosition(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> AvatarPosition {
+        return AvatarPosition(horizontal: .natural, vertical: .messageBottom)
     }
 }
 
@@ -377,10 +393,10 @@ extension ChatRoomViewController : UIImagePickerControllerDelegate, UINavigation
         if(UIImagePickerController .isSourceTypeAvailable(.camera)) {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
-            imagePicker.sourceType = .camera;
+            imagePicker.sourceType = .camera
             imagePicker.cameraFlashMode = .off
             imagePicker.cameraCaptureMode = .photo
-            imagePicker.allowsEditing = false
+            imagePicker.allowsEditing = true
             present(imagePicker, animated: true, completion: nil)
         } else {
             let alert = UIAlertController(title: "Camera Not Found", message: "This device has no Camera", preferredStyle: .alert)
@@ -392,7 +408,8 @@ extension ChatRoomViewController : UIImagePickerControllerDelegate, UINavigation
     
     func openGalleryAction() {
         let imagePicker = UIImagePickerController()
-        imagePicker.allowsEditing = false
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
         imagePicker.sourceType = .photoLibrary
         
         present(imagePicker, animated: true, completion: nil)

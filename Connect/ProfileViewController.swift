@@ -39,7 +39,7 @@ class ProfileViewController : UIViewController, UIImagePickerControllerDelegate,
     }
     
     @objc func showActionSheet() {
-        let actionSheetController: UIAlertController = UIAlertController(title: "Please select", message: "Option to select", preferredStyle: .actionSheet)
+        let actionSheetController: UIAlertController = UIAlertController(title: "Change profile picture", message: "Please select an option", preferredStyle: .actionSheet)
         
         let openGalleryButtonAction = UIAlertAction(title: "Open Gallery", style: .default) { _ in
             self.openGalleryAction()
@@ -85,7 +85,7 @@ class ProfileViewController : UIViewController, UIImagePickerControllerDelegate,
             imagePicker.delegate = self
             imagePicker.sourceType = .camera;
             imagePicker.cameraCaptureMode = .photo
-            imagePicker.allowsEditing = false
+            imagePicker.allowsEditing = true
             present(imagePicker, animated: true, completion: nil)
         } else {
             let alert = UIAlertController(title: "Camera Not Found", message: "This device has no Camera", preferredStyle: .alert)
@@ -96,7 +96,8 @@ class ProfileViewController : UIViewController, UIImagePickerControllerDelegate,
     }
     
     fileprivate func openGalleryAction() {
-        imagePicker.allowsEditing = false
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
         imagePicker.sourceType = .photoLibrary
         
         present(imagePicker, animated: true, completion: nil)
