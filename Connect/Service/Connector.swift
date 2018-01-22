@@ -22,6 +22,18 @@ public class Connector {
         service.startSvc()
     }
     
+    //AVATAR
+    func send(avatar: UIImage) -> Void {
+        let dictionary = ["avatar": avatar]
+        let dataToSend = NSKeyedArchiver.archivedData(withRootObject: dictionary)
+        do {
+            try service.send(data: dataToSend)
+        }
+        catch {
+            print("Can't send avatar to the other peer.")
+        }
+    }
+    
     //Messages
     func send(text: String) -> Void {
         let dictionary = ["text": text]

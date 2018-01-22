@@ -13,14 +13,14 @@ class ProfileViewController : UIViewController, UIImagePickerControllerDelegate,
     
     let imagePicker = UIImagePickerController()
     @IBOutlet weak var profilePicture: UIImageView!
+    @IBOutlet weak var deviceNameLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        deviceNameLabel.text = UIDevice.current.name
         imagePicker.delegate = self
         profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
         profilePicture.clipsToBounds = true
-        profilePicture.layer.borderWidth = 3
-        profilePicture.layer.borderColor = UIColor.white.cgColor
         let fileName = "profile_picture.jpg"
         let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! + "/" + fileName
         if let image = UIImage(contentsOfFile: path) {
