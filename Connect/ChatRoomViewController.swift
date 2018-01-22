@@ -201,8 +201,8 @@ class ChatRoomViewController: MessagesViewController {
                transition.type = kCATransitionMoveIn
                transition.subtype = kCATransitionFromTop
                self.navigationController?.view.layer.add(transition, forKey: nil)
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                self.navigationController?.pushViewController(storyboard.instantiateViewController(withIdentifier: "liveVideo"), animated: false)
+               let storyboard = UIStoryboard(name: "Main", bundle: nil)
+               self.navigationController?.pushViewController(storyboard.instantiateViewController(withIdentifier: "liveVideo"), animated: false)
             }
         }
 
