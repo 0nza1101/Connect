@@ -41,6 +41,14 @@ class LiveVideoViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         self.tabBarController?.tabBar.isHidden = false
     }
+    
+    
+    override func viewDidDisappear(_ animated: Bool){
+        super.viewDidDisappear(animated)
+        if self.isMovingFromParentViewController {
+            connector.service.session.disconnect()
+        }
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -48,11 +56,21 @@ class LiveVideoViewController: UIViewController {
     }
     
     func dataReceived(data: Data, peer: MCPeerID) {
-        let image = UIImage(data: data)
-        streamView.image = image
+        let dataDictionary = NSKeyedUnarchiver.unarchiveObject(with: data) as! [String: Any]
+        
+        if let imgData = dataDictionary["video"] {
+            let image = UIImage(data: imgData as! Data)
+            streamView.image = image
+        }
+        
+        if (dataDictionary["hangup"] != nil) {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     func closeView() {
+        connector.send(hangUp: "hangup")
+        
         let transition = CATransition()
         transition.duration = 0.5
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
