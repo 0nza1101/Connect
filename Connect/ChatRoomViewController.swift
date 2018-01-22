@@ -34,11 +34,6 @@ class ChatRoomViewController: MessagesViewController {
         
         scrollsToBottomOnKeybordBeginsEditing = true
         maintainPositionOnKeyboardFrameChanged = true
-        
-        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! + "/" + "profile_picture.jpg"
-        if let image = UIImage(contentsOfFile: path) {
-            connector.send(avatar: image)
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,7 +42,17 @@ class ChatRoomViewController: MessagesViewController {
         
         connector.service.dataReceived = dataReceived
         
-        print("DATARECEIVED BIND")
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! + "/" + "profile_picture.jpg"
+        if let image = UIImage(contentsOfFile: path) {
+            connector.send(avatar: image)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! + "/" + "profile_picture.jpg"
+        if let image = UIImage(contentsOfFile: path) {
+            connector.send(avatar: image)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool){
