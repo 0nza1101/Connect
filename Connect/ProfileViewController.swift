@@ -32,6 +32,8 @@ class ProfileViewController : UIViewController, UIImagePickerControllerDelegate,
         let tap = UITapGestureRecognizer(target: self, action: #selector(ProfileViewController.showActionSheet))
         profilePicture.addGestureRecognizer(tap)
         profilePicture.isUserInteractionEnabled = true
+        
+        
     }
     
     override func didReceiveMemoryWarning() {
