@@ -4,5 +4,4 @@ use_frameworks!
 target 'Connect' do
    pod 'UIColor_Hex_Swift'
    pod 'MessageKit'
-   pod 'RAMAnimatedTabBarController'
 end

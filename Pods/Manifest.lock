@@ -1,18 +1,15 @@
 PODS:
   - MessageKit (0.12.0)
-  - RAMAnimatedTabBarController (3.0.1)
   - UIColor_Hex_Swift (4.0.1)
 
 DEPENDENCIES:
   - MessageKit
-  - RAMAnimatedTabBarController
   - UIColor_Hex_Swift
 
 SPEC CHECKSUMS:
   MessageKit: 9455b04be28eb7c50a00962e6168672cd3d403ae
-  RAMAnimatedTabBarController: 78bafa7a1c1b162f0d4a86a936c0d1ee4a06ffcc
   UIColor_Hex_Swift: c5ff88470499383b8fd85302d59344bb24ba9436
 
-PODFILE CHECKSUM: d20f653e51cb028a4a9f49171fefd230ad4e0e4c
+PODFILE CHECKSUM: d25c8539cd25f0bb3456ceb1ecee2f6767ec8dc2
 
 COCOAPODS: 1.3.1

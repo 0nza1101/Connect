@@ -99,9 +99,14 @@ class FrameExtractor: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
     func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard connection.isActive else {
+            return
+        }
         guard let uiImage = imageFromSampleBuffer(sampleBuffer: sampleBuffer) else { return }
-        DispatchQueue.main.async { [unowned self] in
-            self.delegate?.captured(image: uiImage)
+
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.delegate?.captured(image: uiImage)
         }
     }
 }

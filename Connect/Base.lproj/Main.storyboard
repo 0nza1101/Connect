@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gur-4B-GSd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gur-4B-GSd">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -62,8 +62,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eZJ-4a-Hfi">
-                                <rect key="frame" x="87" y="92" width="200" height="200"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eZJ-4a-Hfi">
+                                <rect key="frame" x="87" y="233" width="200" height="200"/>
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="6oP-mp-lYy"/>
@@ -78,24 +78,19 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wzK-gi-TbH"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Settings" image="settings_25px_png24" selectedImage="settings_25px_png24" id="T3D-LY-wg7" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
-                        <connections>
-                            <outlet property="animation" destination="nxw-Ws-Ogb" id="Ocx-Sv-Epf"/>
-                        </connections>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="Settings" image="settings_25px_png24" selectedImage="settings_25px_png24" id="T3D-LY-wg7"/>
                     <connections>
                         <outlet property="profilePicture" destination="eZJ-4a-Hfi" id="VJg-BA-lcT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RoP-rj-tSG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <customObject id="nxw-Ws-Ogb" customClass="RAMBounceAnimation" customModule="RAMAnimatedTabBarController"/>
             </objects>
             <point key="canvasLocation" x="-538" y="894"/>
         </scene>
-        <!--Animated Tab Bar Controller-->
+        <!--Tab Bar Controller-->
         <scene sceneID="37H-gf-SBS">
             <objects>
-                <tabBarController id="gur-4B-GSd" customClass="RAMAnimatedTabBarController" customModule="RAMAnimatedTabBarController" sceneMemberID="viewController">
+                <tabBarController id="gur-4B-GSd" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="32A-Ec-iZO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -132,31 +127,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1SG-Sr-9ZJ">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1SG-Sr-9ZJ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rL9-YU-gvU">
-                                <rect key="frame" x="234" y="446" width="125" height="201"/>
+                                <rect key="frame" x="228.5" y="460" width="130.5" height="187"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="201" id="Qlw-lL-KuM"/>
-                                    <constraint firstAttribute="width" constant="125" id="r6j-YU-SGA"/>
+                                    <constraint firstAttribute="width" secondItem="rL9-YU-gvU" secondAttribute="height" multiplier="16:23" id="V0i-sg-2O5"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IFk-R9-dxB">
-                                <rect key="frame" x="295" y="20" width="64" height="64"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="64" id="7pL-j7-g0H"/>
-                                    <constraint firstAttribute="width" constant="64" id="K5x-SW-Uxy"/>
-                                </constraints>
+                                <rect key="frame" x="335" y="20" width="24" height="24"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" image="Rear Camera Icon"/>
                                 <connections>
                                     <action selector="switchCamera:" destination="c7F-jM-3c4" eventType="touchUpInside" id="rMv-FK-qvZ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xND-aq-nna">
-                                <rect key="frame" x="165" y="597" width="50" height="50"/>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xND-aq-nna">
+                                <rect key="frame" x="162.5" y="597" width="50" height="50"/>
                                 <color key="backgroundColor" red="1" green="0.36697172845874304" blue="0.30273097072422905" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <color key="tintColor" red="0.93033518278426242" green="0.94553149297823402" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" image="end_call">
@@ -169,12 +158,17 @@
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="IFk-R9-dxB" firstAttribute="top" secondItem="K7F-9N-nw5" secondAttribute="top" id="GDc-no-RgP"/>
-                            <constraint firstItem="rL9-YU-gvU" firstAttribute="leading" secondItem="xND-aq-nna" secondAttribute="trailing" constant="19" id="Inl-Ig-OmE"/>
-                            <constraint firstAttribute="bottom" secondItem="rL9-YU-gvU" secondAttribute="bottom" constant="20" symbolic="YES" id="S8m-qi-92o"/>
-                            <constraint firstItem="IFk-R9-dxB" firstAttribute="trailing" secondItem="uhl-B6-sQv" secondAttribute="trailingMargin" id="aL6-xg-stE"/>
-                            <constraint firstItem="IFk-R9-dxB" firstAttribute="trailing" secondItem="rL9-YU-gvU" secondAttribute="trailing" id="nY8-lk-u31"/>
-                            <constraint firstItem="rL9-YU-gvU" firstAttribute="bottom" secondItem="xND-aq-nna" secondAttribute="bottom" id="t0w-C2-fE6"/>
+                            <constraint firstItem="K7F-9N-nw5" firstAttribute="bottom" secondItem="rL9-YU-gvU" secondAttribute="bottom" constant="20" id="125-8H-9zb"/>
+                            <constraint firstItem="K7F-9N-nw5" firstAttribute="bottom" secondItem="xND-aq-nna" secondAttribute="bottom" constant="20" id="Dpa-CY-2rr"/>
+                            <constraint firstItem="1SG-Sr-9ZJ" firstAttribute="bottom" secondItem="K7F-9N-nw5" secondAttribute="bottom" id="J0y-Ld-Xce"/>
+                            <constraint firstItem="1SG-Sr-9ZJ" firstAttribute="trailing" secondItem="K7F-9N-nw5" secondAttribute="trailing" id="QUd-dh-ZkL"/>
+                            <constraint firstItem="IFk-R9-dxB" firstAttribute="trailing" secondItem="rL9-YU-gvU" secondAttribute="trailing" id="W6h-Sg-YZv"/>
+                            <constraint firstItem="1SG-Sr-9ZJ" firstAttribute="leading" secondItem="K7F-9N-nw5" secondAttribute="leading" id="cUr-cV-ZA0"/>
+                            <constraint firstItem="1SG-Sr-9ZJ" firstAttribute="top" secondItem="uhl-B6-sQv" secondAttribute="top" id="dph-cf-Xmd"/>
+                            <constraint firstItem="IFk-R9-dxB" firstAttribute="top" secondItem="K7F-9N-nw5" secondAttribute="top" id="jRP-ka-XBa"/>
+                            <constraint firstItem="K7F-9N-nw5" firstAttribute="trailing" secondItem="rL9-YU-gvU" secondAttribute="trailing" constant="16" id="nvB-iR-4CH"/>
+                            <constraint firstItem="rL9-YU-gvU" firstAttribute="leading" secondItem="xND-aq-nna" secondAttribute="trailing" constant="16" id="rd0-tM-8CO"/>
+                            <constraint firstItem="xND-aq-nna" firstAttribute="centerX" secondItem="uhl-B6-sQv" secondAttribute="centerX" id="vZQ-b1-uZv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="K7F-9N-nw5"/>
                     </view>
@@ -187,21 +181,20 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ktq-ZT-HC5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1945" y="124"/>
+            <point key="canvasLocation" x="1944.8" y="123.68815592203899"/>
         </scene>
         <!--Chat-->
         <scene sceneID="zk8-6L-667">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9jW-E1-TKP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Chat" image="chat_25px_png24" selectedImage="chat_25px_png24" id="8oG-Vp-Dew" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
-                        <connections>
-                            <outlet property="animation" destination="NwU-JC-OJy" id="96N-X2-mtF"/>
-                        </connections>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="Chat" image="chat_25px_png24" selectedImage="chat_25px_png24" id="8oG-Vp-Dew"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="vBZ-f1-fTb">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -209,7 +202,6 @@
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vqN-yd-KCZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <customObject id="NwU-JC-OJy" customClass="RAMBounceAnimation" customModule="RAMAnimatedTabBarController"/>
             </objects>
             <point key="canvasLocation" x="-538" y="124"/>
         </scene>

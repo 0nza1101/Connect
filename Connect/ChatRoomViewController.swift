@@ -37,9 +37,12 @@ class ChatRoomViewController: MessagesViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        connector.service.dataReceived = dataReceived
         self.navigationItem.title = recipientUserName
         self.tabBarController?.tabBar.isHidden = true
+        
+        connector.service.dataReceived = dataReceived
+        
+        print("DATARECEIVED BIND")
     }
     
     override func viewWillDisappear(_ animated: Bool){
