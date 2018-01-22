@@ -30,26 +30,18 @@ class LiveVideoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        self.tabBarController?.tabBar.isHidden = true
-        
         connector.service.dataReceived = dataReceived
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
-        self.tabBarController?.tabBar.isHidden = false
     }
     
     
     override func viewDidDisappear(_ animated: Bool){
         super.viewDidDisappear(animated)
-        if self.isMovingFromParentViewController {
-            connector.service.session.disconnect()
-        }
     }
 
     override func didReceiveMemoryWarning() {

@@ -39,13 +39,11 @@ class ChatRoomViewController: MessagesViewController {
         if let image = UIImage(contentsOfFile: path) {
             connector.send(avatar: image)
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.title = recipientUserName
-        self.tabBarController?.tabBar.isHidden = true
         
         connector.service.dataReceived = dataReceived
         
@@ -57,7 +55,6 @@ class ChatRoomViewController: MessagesViewController {
         if self.isMovingFromParentViewController {
             connector.send(disconnect: "disconnect")
         }
-        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidDisappear(_ animated: Bool){
@@ -271,7 +268,7 @@ extension ChatRoomViewController: MessagesDataSource {
         } else {
             return Avatar(image: recipientAvatar, initials: "?")
         }
-        return Avatar()
+        return Avatar(image: #imageLiteral(resourceName: "default_profile_pic"), initials: "?")
     }
     
 }

@@ -27,6 +27,7 @@ class PeersTableViewController: UITableViewController {
         
         let settings = UIImage(named: "settings_25px_png24")!.withRenderingMode(.alwaysTemplate)
         let profileButton = UIBarButtonItem(image: settings, style: .plain, target: self, action: #selector(showProfileView))
+        profileButton.tintColor = UIColor.white
         
         navigationItem.rightBarButtonItem = profileButton
     }
